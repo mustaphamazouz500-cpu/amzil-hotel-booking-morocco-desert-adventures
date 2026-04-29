@@ -9,438 +9,611 @@
     <style>
         :root {
             --gold: #D4AF37;
-            --gold-light: #F0D060;
+            --gold-light: #E8D07A;
+            --gold-dark: #B8960F;
             --terracotta: #C4734F;
+            --terracotta-light: #D49573;
             --deep-blue: #1A3650;
-            --midnight: #0A1628;
+            --midnight: #0F1D2D;
             --cream: #FDF8F0;
+            --sand: #F5EDE0;
             --white: #FFFFFF;
             --text: #1A1A1A;
-            --text-light: #6B7280;
-            --glass: rgba(255,255,255,0.08);
-            --glass-border: rgba(255,255,255,0.12);
-            --glass-hover: rgba(255,255,255,0.14);
-            --radius: 24px;
+            --text-light: #5C5C5C;
+            --radius: 20px;
             --font-display: 'Cormorant Garamond', Georgia, serif;
             --font-body: 'Inter', -apple-system, sans-serif;
         }
 
         * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; font-size: 16px; }
         body {
             font-family: var(--font-body); background: var(--cream); color: var(--text);
-            line-height: 1.6; overflow-x: hidden;
+            line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
         }
+
+        /* ============ PRELOADER ============ */
+        .preloader {
+            position: fixed; inset: 0; z-index: 9999; background: var(--midnight);
+            display: flex; align-items: center; justify-content: center;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+        .preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader-inner { text-align: center; }
+        .preloader-icon {
+            font-size: 60px; animation: float 2s ease-in-out infinite;
+            display: block; margin-bottom: 20px;
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        .preloader-line {
+            width: 120px; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto; animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0%,100% { opacity: 0.3; width: 80px; } 50% { opacity: 1; width: 160px; } }
+        .preloader-text {
+            color: var(--gold); font-family: var(--font-display); font-size: 18px;
+            margin-top: 16px; letter-spacing: 4px; text-transform: uppercase;
+        }
+
+        /* ============ CUSTOM CURSOR ============ */
+        .cursor {
+            width: 24px; height: 24px; border: 1.5px solid var(--gold);
+            border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998;
+            transition: transform 0.15s, width 0.3s, height 0.3s;
+            transform: translate(-50%, -50%); mix-blend-mode: difference; display: none;
+        }
+        .cursor.hover { width: 50px; height: 50px; background: rgba(212,175,55,0.15); }
+        @media (min-width: 1024px) { .cursor { display: block; } }
 
         /* ============ NAVIGATION ============ */
         .navbar {
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; width: calc(100% - 40px); max-width: 1200px;
-            background: rgba(255,255,255,0.65); backdrop-filter: blur(40px);
-            border: 1px solid rgba(255,255,255,0.5); border-radius: 60px;
-            padding: 14px 32px; transition: all 0.5s;
-            display: flex; align-items: center; justify-content: space-between;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 20px 0; transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .navbar.scrolled {
-            background: rgba(255,255,255,0.85); box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-            border-color: rgba(255,255,255,0.7);
+            background: rgba(253,248,240,0.95); backdrop-filter: blur(30px);
+            padding: 12px 0; box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+        }
+        .nav-inner {
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
+            display: flex; align-items: center; justify-content: space-between;
         }
         .nav-logo {
-            font-family: var(--font-display); font-size: 22px; font-weight: 700;
-            color: var(--deep-blue); text-decoration: none; display: flex; align-items: center; gap: 8px;
+            font-family: var(--font-display); font-size: 26px; font-weight: 700;
+            color: var(--white); text-decoration: none; letter-spacing: 1px;
+            transition: color 0.5s; display: flex; align-items: center; gap: 10px;
         }
+        .navbar.scrolled .nav-logo { color: var(--midnight); }
         .nav-logo-icon {
-            width: 34px; height: 34px;
-            background: linear-gradient(135deg, var(--gold), var(--terracotta));
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 14px; color: white;
+            width: 38px; height: 38px; border: 2px solid var(--gold); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 16px;
         }
-        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links { display: flex; gap: 36px; align-items: center; }
         .nav-links a {
-            color: var(--text); text-decoration: none; font-size: 12px;
+            color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px;
             font-weight: 500; letter-spacing: 1px; text-transform: uppercase;
-            transition: color 0.3s;
+            transition: all 0.3s; position: relative; padding: 6px 0;
         }
-        .nav-links a:hover { color: var(--terracotta); }
+        .navbar.scrolled .nav-links a { color: var(--text); }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+            background: var(--gold); transition: width 0.4s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold); }
         .btn-nav {
-            padding: 10px 22px; background: var(--deep-blue); color: white !important;
-            border-radius: 30px; font-weight: 600 !important; font-size: 11px !important;
-            transition: all 0.3s !important;
+            padding: 12px 28px; background: var(--gold); color: var(--midnight) !important;
+            border-radius: 4px; font-weight: 600 !important; letter-spacing: 2px !important;
+            transition: all 0.4s !important; font-size: 11px !important;
         }
-        .btn-nav:hover { background: var(--midnight); }
+        .btn-nav:hover { background: var(--gold-dark); transform: translateY(-1px); }
+        .btn-nav::after { display: none !important; }
 
         /* ============ HERO ============ */
         .hero {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden; background: var(--deep-blue);
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #1A3650 0%, #0F1D2D 30%, #2D1810 60%, #1A3650 100%);
         }
-        .hero-gradient {
-            position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse 80% 50% at 20% 20%, rgba(212,175,55,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 40% at 80% 70%, rgba(196,115,79,0.12) 0%, transparent 50%),
-                radial-gradient(ellipse 50% 60% at 50% 50%, rgba(10,22,40,0.3) 0%, transparent 70%);
+        .hero-particles {
+            position: absolute; inset: 0; pointer-events: none;
         }
-        .hero-rings { position: absolute; inset: 0; pointer-events: none; }
-        .hero-ring {
-            position: absolute; border-radius: 50%; border: 1px solid rgba(212,175,55,0.08);
-            animation: ringPulse 6s ease-in-out infinite;
+        .hero-particle {
+            position: absolute; width: 2px; height: 2px; background: var(--gold);
+            border-radius: 50%; animation: particleFloat 8s infinite;
+            opacity: 0;
         }
-        @keyframes ringPulse {
-            0%,100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.1); opacity: 0.6; }
+        @keyframes particleFloat {
+            0% { opacity: 0; transform: translateY(100vh) scale(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-100vh) scale(1); }
         }
-        .hero-content { text-align: center; z-index: 2; max-width: 750px; padding: 40px; }
-        .hero-overline {
-            display: inline-flex; align-items: center; gap: 12px;
-            font-size: 10px; letter-spacing: 4px; color: var(--gold-light);
-            text-transform: uppercase; margin-bottom: 30px; font-weight: 500;
+        .hero-content {
+            text-align: center; z-index: 2; padding: 40px; max-width: 800px;
+            position: relative;
         }
-        .hero-overline::before, .hero-overline::after {
-            content: ''; width: 24px; height: 1px; background: var(--gold);
+        .hero-ornament {
+            display: block; width: 80px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto 40px;
+        }
+        .hero-badge {
+            display: inline-block; border: 1px solid rgba(212,175,55,0.4);
+            padding: 10px 24px; border-radius: 30px; font-size: 10px;
+            font-weight: 600; letter-spacing: 4px; color: var(--gold-light);
+            text-transform: uppercase; margin-bottom: 36px;
         }
         .hero h1 {
-            font-family: var(--font-display); font-size: clamp(38px, 7vw, 68px);
-            font-weight: 600; color: white; line-height: 1.1; margin-bottom: 20px;
+            font-family: var(--font-display); font-size: clamp(40px, 7vw, 72px);
+            font-weight: 600; color: var(--white); line-height: 1.1; margin-bottom: 20px;
         }
-        .hero h1 em { color: var(--gold-light); font-style: italic; }
+        .hero h1 span { color: var(--gold); font-style: italic; }
         .hero p {
-            font-size: 16px; color: rgba(255,255,255,0.55); font-weight: 300;
-            max-width: 480px; margin: 0 auto 40px; line-height: 1.7;
+            font-size: 17px; color: rgba(255,255,255,0.6); margin-bottom: 44px;
+            font-weight: 300; letter-spacing: 1px; max-width: 500px; margin-left: auto; margin-right: auto;
         }
-        .hero-buttons { display: flex; gap: 16px; justify-content: center; }
-        .btn-glass {
-            padding: 14px 32px; border-radius: 40px; font-size: 12px; font-weight: 600;
-            letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
-            transition: all 0.4s; position: relative; overflow: hidden;
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary, .btn-outline {
+            padding: 16px 36px; font-size: 12px; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
+            transition: all 0.5s; position: relative; overflow: hidden;
         }
-        .btn-gold {
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            color: var(--deep-blue); box-shadow: 0 8px 30px rgba(212,175,55,0.25);
+        .btn-primary {
+            background: var(--gold); color: var(--midnight);
         }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(212,175,55,0.4); }
-        .btn-glass-outline {
-            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2);
-            color: white; backdrop-filter: blur(10px);
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(212,175,55,0.3); }
+        .btn-outline {
+            border: 1px solid rgba(255,255,255,0.3); color: var(--white);
         }
-        .btn-glass-outline:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.4); }
+        .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+        .hero-scroll {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            animation: bounce 2s infinite; cursor: pointer;
+        }
+        .hero-scroll span { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; }
+        .hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+        @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-10px); } }
 
-        /* ============ GLASS CARD ICONS ============ */
-        .icon-svg { display: inline-block; width: 48px; height: 48px; }
-        .icon-glass {
-            width: 52px; height: 52px; border-radius: 16px;
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(20px); display: flex; align-items: center;
-            justify-content: center; margin: 0 auto 20px; transition: all 0.4s;
-        }
-        .exp-card:hover .icon-glass { background: rgba(196,115,79,0.15); border-color: var(--terracotta); transform: scale(1.05); }
-
-        /* ============ SECTIONS ============ */
-        .section { padding: 90px 32px; max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 60px; }
-        .section-tag {
-            font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--terracotta);
-            text-transform: uppercase; margin-bottom: 12px;
+        /* ============ SECTION STYLES ============ */
+        .section { padding: 100px 40px; max-width: 1300px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 70px; }
+        .section-overline {
+            font-size: 10px; font-weight: 600; letter-spacing: 4px; color: var(--terracotta);
+            text-transform: uppercase; margin-bottom: 16px;
         }
         .section-title {
-            font-family: var(--font-display); font-size: clamp(30px, 5vw, 44px);
-            font-weight: 600; color: var(--deep-blue); margin-bottom: 12px;
+            font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px);
+            font-weight: 600; color: var(--midnight); margin-bottom: 20px; line-height: 1.2;
         }
-        .section-line { width: 50px; height: 2px; background: var(--gold); margin: 0 auto 16px; }
-        .section-subtitle { color: var(--text-light); font-size: 15px; max-width: 420px; margin: 0 auto; }
+        .section-line { width: 60px; height: 2px; background: var(--gold); margin: 0 auto 20px; }
+        .section-subtitle { color: var(--text-light); font-size: 16px; max-width: 500px; margin: 0 auto; line-height: 1.7; }
 
-        /* ============ DESTINATIONS ============ */
-        .dest-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        /* ============ DESTINATIONS GRID ============ */
+        .destinations-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+        }
         .dest-card {
-            position: relative; height: 500px; border-radius: var(--radius);
-            overflow: hidden; cursor: pointer; transition: all 0.5s cubic-bezier(0.22,1,0.36,1);
-            border: 1px solid rgba(255,255,255,0.1);
+            position: relative; height: 550px; overflow: hidden; cursor: pointer;
+            border-radius: 2px; transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        .dest-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.25); }
+        .dest-card:first-child { border-radius: var(--radius) 2px 2px var(--radius); }
+        .dest-card:last-child { border-radius: 2px var(--radius) var(--radius) 2px; }
+        .dest-card:hover { transform: scale(1.02); z-index: 2; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
         .dest-bg {
-            position: absolute; inset: 0; transition: transform 0.8s;
+            position: absolute; inset: 0; background-size: cover; background-position: center;
+            transition: transform 0.8s;
         }
-        .dest-card:hover .dest-bg { transform: scale(1.08); }
-        .dest-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(10,22,40,0.92) 0%, rgba(10,22,40,0.4) 40%, rgba(10,22,40,0.05) 100%);
+        .dest-card:hover .dest-bg { transform: scale(1.1); }
+        .dest-bg::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(15,29,45,0.9) 0%, rgba(15,29,45,0.3) 40%, rgba(15,29,45,0.05) 100%);
+            transition: background 0.6s;
         }
-        .dest-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 36px 28px; z-index: 2; }
-        .dest-icon-circle {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px); display: flex; align-items: center;
-            justify-content: center; margin-bottom: 16px; font-size: 18px;
-            transition: all 0.4s;
+        .dest-card:hover .dest-bg::after { background: linear-gradient(to top, rgba(15,29,45,0.95) 0%, rgba(15,29,45,0.5) 40%, rgba(15,29,45,0.1) 100%); }
+        .dest-content {
+            position: absolute; bottom: 0; left: 0; right: 0; padding: 40px 30px;
+            z-index: 2;
         }
-        .dest-card:hover .dest-icon-circle { background: rgba(212,175,55,0.15); border-color: rgba(212,175,55,0.3); }
+        .dest-number {
+            font-family: var(--font-display); font-size: 60px; font-weight: 700;
+            color: rgba(212,175,55,0.3); line-height: 1; margin-bottom: 4px;
+            transition: all 0.6s;
+        }
+        .dest-card:hover .dest-number { color: rgba(212,175,55,0.6); }
         .dest-content h3 {
-            font-family: var(--font-display); font-size: 24px; color: white; margin-bottom: 4px;
+            font-family: var(--font-display); font-size: 26px; color: var(--white);
+            margin-bottom: 8px; letter-spacing: 1px;
         }
-        .dest-content .loc { font-size: 11px; color: var(--gold-light); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .dest-content p { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 18px; opacity: 0; transform: translateY(8px); transition: all 0.5s 0.1s; }
+        .dest-content .location {
+            font-size: 11px; color: var(--gold); text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 12px;
+        }
+        .dest-content p {
+            font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px;
+            line-height: 1.6; opacity: 0; transform: translateY(10px);
+            transition: all 0.5s 0.1s;
+        }
         .dest-card:hover .dest-content p { opacity: 1; transform: translateY(0); }
-        .dest-arrow {
-            color: var(--gold); font-size: 20px; opacity: 0; transform: translateX(-10px);
-            transition: all 0.5s 0.2s; display: inline-block;
+        .dest-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--gold); text-decoration: none; font-size: 11px;
+            font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+            opacity: 0; transform: translateY(10px); transition: all 0.5s 0.2s;
         }
-        .dest-card:hover .dest-arrow { opacity: 1; transform: translateX(0); }
+        .dest-card:hover .dest-link { opacity: 1; transform: translateY(0); }
+        .dest-link .arrow { transition: transform 0.3s; }
+        .dest-link:hover .arrow { transform: translateX(6px); }
 
         /* ============ EXPERIENCES ============ */
-        .exp-section { background: white; }
-        .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .experiences-section { background: var(--white); }
+        .exp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .exp-card {
-            text-align: center; padding: 44px 28px; border-radius: var(--radius);
-            background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.04);
-            backdrop-filter: blur(10px); transition: all 0.4s; position: relative;
-            overflow: hidden;
+            text-align: center; padding: 50px 30px; border: 1px solid rgba(0,0,0,0.06);
+            border-radius: var(--radius); transition: all 0.5s; position: relative;
+            overflow: hidden; background: var(--white);
         }
-        .exp-card:hover { background: white; box-shadow: 0 24px 48px rgba(0,0,0,0.06); transform: translateY(-4px); }
-        .exp-card::after {
-            content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 0; height: 2px; background: var(--gold); transition: width 0.5s;
+        .exp-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--terracotta));
+            transform: scaleX(0); transition: transform 0.6s;
         }
-        .exp-card:hover::after { width: 60px; }
-        .exp-name { font-family: var(--font-display); font-size: 20px; color: var(--deep-blue); margin-bottom: 6px; }
-        .exp-desc { color: var(--text-light); font-size: 12px; margin-bottom: 12px; }
-        .exp-price { font-size: 24px; font-weight: 700; color: var(--terracotta); font-family: var(--font-display); }
-        .exp-price span { font-size: 11px; color: var(--text-light); font-weight: 400; }
+        .exp-card:hover::before { transform: scaleX(1); }
+        .exp-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px rgba(0,0,0,0.08); }
+        .exp-icon { font-size: 48px; margin-bottom: 24px; display: block; }
+        .exp-card h3 { font-family: var(--font-display); font-size: 22px; color: var(--midnight); margin-bottom: 10px; }
+        .exp-card p { color: var(--text-light); font-size: 13px; margin-bottom: 16px; line-height: 1.7; }
+        .exp-price { font-size: 28px; font-weight: 700; color: var(--terracotta); font-family: var(--font-display); }
+        .exp-price span { font-size: 12px; color: var(--text-light); font-weight: 400; }
 
-        /* ============ FEATURES ============ */
-        .feat-section { background: var(--deep-blue); padding: 50px 0; }
-        .feat-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
-        .feat-item { display: flex; align-items: center; gap: 16px; color: white; }
-        .feat-icon-glass {
-            width: 46px; height: 46px; border-radius: 14px;
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-            backdrop-filter: blur(10px); display: flex; align-items: center;
-            justify-content: center; font-size: 20px; flex-shrink: 0;
+        /* ============ FEATURES BAR ============ */
+        .features-bar {
+            background: var(--midnight); padding: 50px 0;
         }
-        .feat-text h4 { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-        .feat-text p { font-size: 11px; color: rgba(255,255,255,0.45); }
+        .features-inner {
+            max-width: 1300px; margin: 0 auto; padding: 0 40px;
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+        }
+        .feat-item { text-align: center; color: var(--white); }
+        .feat-icon { font-size: 32px; margin-bottom: 14px; display: block; }
+        .feat-item h4 { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        .feat-item p { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+        /* ============ TESTIMONIAL ============ */
+        .testimonial-section { background: var(--sand); }
+        .testimonial {
+            max-width: 700px; margin: 0 auto; text-align: center;
+        }
+        .testimonial-quote {
+            font-family: var(--font-display); font-size: 28px; font-style: italic;
+            color: var(--midnight); line-height: 1.5; margin-bottom: 30px;
+        }
+        .testimonial-author { font-weight: 600; color: var(--terracotta); }
+        .testimonial-stars { color: var(--gold); font-size: 18px; margin-bottom: 10px; }
+
+        /* ============ CTA ============ */
+        .cta-section {
+            text-align: center; padding: 100px 40px;
+            background: linear-gradient(135deg, var(--midnight), #1A2A3A);
+            position: relative; overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(212,175,55,0.06) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+        @keyframes rotate { to { transform: rotate(360deg); } }
+        .cta-content { position: relative; z-index: 1; }
+        .cta-title {
+            font-family: var(--font-display); font-size: clamp(30px, 5vw, 44px);
+            color: var(--white); margin-bottom: 16px;
+        }
+        .cta-text { color: rgba(255,255,255,0.6); margin-bottom: 36px; font-size: 16px; }
+        .btn-cta {
+            display: inline-block; padding: 18px 44px; background: var(--gold);
+            color: var(--midnight); text-decoration: none; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase; font-size: 11px;
+            transition: all 0.5s; border-radius: 4px;
+        }
+        .btn-cta:hover { background: var(--gold-light); transform: translateY(-3px); box-shadow: 0 24px 48px rgba(212,175,55,0.3); }
 
         /* ============ FOOTER ============ */
-        .footer { background: var(--midnight); color: white; padding: 60px 32px 30px; }
-        .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 40px; }
-        .footer-about h3 { font-family: var(--font-display); font-size: 24px; color: var(--gold); margin-bottom: 12px; }
-        .footer-about p { color: rgba(255,255,255,0.4); font-size: 13px; line-height: 1.7; }
-        .footer-col h4 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
-        .footer-col a { display: block; color: rgba(255,255,255,0.4); text-decoration: none; font-size: 12px; margin-bottom: 10px; transition: color 0.3s; }
-        .footer-col a:hover { color: var(--gold-light); }
-        .footer-bottom { max-width: 1200px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; display: flex; justify-content: space-between; font-size: 10px; color: rgba(255,255,255,0.25); }
+        .footer {
+            background: #0A1219; color: var(--white); padding: 70px 40px 30px;
+        }
+        .footer-inner {
+            max-width: 1300px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px;
+            margin-bottom: 50px;
+        }
+        .footer-about h3 {
+            font-family: var(--font-display); font-size: 24px; margin-bottom: 16px;
+            color: var(--gold);
+        }
+        .footer-about p { color: rgba(255,255,255,0.45); font-size: 13px; line-height: 1.8; }
+        .footer-col h4 { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+        .footer-col a { display: block; color: rgba(255,255,255,0.45); text-decoration: none; font-size: 13px; margin-bottom: 12px; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 11px; color: rgba(255,255,255,0.3);
+            max-width: 1300px; margin: 0 auto;
+        }
+        .footer-social { display: flex; gap: 16px; }
+        .footer-social a { color: rgba(255,255,255,0.3); text-decoration: none; font-size: 18px; transition: color 0.3s; }
+        .footer-social a:hover { color: var(--gold); }
 
-        @media (max-width: 1024px) { .dest-grid { grid-template-columns: repeat(2, 1fr); } .exp-grid { grid-template-columns: 1fr 1fr; } .feat-inner { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 640px) { .dest-grid { grid-template-columns: 1fr; } .exp-grid { grid-template-columns: 1fr; } .nav-links { display: none; } .footer-inner { grid-template-columns: 1fr; } }
+        @media (max-width: 1024px) {
+            .destinations-grid { grid-template-columns: repeat(2, 1fr); }
+            .exp-grid { grid-template-columns: 1fr 1fr; }
+            .features-inner { grid-template-columns: 1fr 1fr; }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 640px) {
+            .destinations-grid { grid-template-columns: 1fr; }
+            .dest-card { height: 400px; }
+            .exp-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-inner { grid-template-columns: 1fr; }
+            .section { padding: 60px 20px; }
+            .hero h1 { font-size: 32px; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+        }
     </style>
 </head>
 <body>
 
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <span class="preloader-icon">🏜️</span>
+            <div class="preloader-line"></div>
+            <div class="preloader-text">Morocco Awaits</div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor" id="cursor"></div>
+
     <!-- NAVIGATION -->
     <nav class="navbar" id="navbar">
-        <a href="index.html" class="nav-logo">
-            <span class="nav-logo-icon">✧</span>
-            MDA
-        </a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="#destinations">Destinations</a>
-            <a href="#experiences">Experiences</a>
-            <a href="hotels.html">Hotels</a>
-            <a href="contact.html">Contact</a>
-            <a href="booking.html" class="btn-nav">Book Now</a>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <span class="nav-logo-icon">✧</span>
+                M. D. A.
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#destinations">Destinations</a>
+                <a href="#experiences">Experiences</a>
+                <a href="hotels.html">Hotels</a>
+                <a href="contact.html">Contact</a>
+                <a href="booking.html" class="btn-nav">Book Now</a>
+            </div>
         </div>
     </nav>
 
     <!-- HERO -->
-    <section class="hero">
-        <div class="hero-gradient"></div>
-        <div class="hero-rings">
-            <div class="hero-ring" style="width:600px;height:600px;top:10%;left:-200px;"></div>
-            <div class="hero-ring" style="width:400px;height:400px;bottom:0;right:-100px;animation-delay:2s;"></div>
-            <div class="hero-ring" style="width:300px;height:300px;top:40%;left:60%;animation-delay:4s;"></div>
-        </div>
+    <section class="hero" id="hero">
+        <div class="hero-particles" id="heroParticles"></div>
         <div class="hero-content">
-            <div class="hero-overline">Discover Morocco</div>
-            <h1>Where <em>Golden Sands</em> Meet Timeless Beauty</h1>
-            <p>Extraordinary journeys through Agafay, Marrakech, Imlil and Merzouga — each moment crafted with devotion by those who call this land home</p>
+            <div class="hero-ornament"></div>
+            <div class="hero-badge">✦ Discover Morocco ✦</div>
+            <h1>Journey Into <span>Golden Sands</span> & Timeless Cities</h1>
+            <p>Extraordinary experiences crafted with care — from the rolling dunes of Merzouga to the Atlas peaks and the soul of Marrakech</p>
             <div class="hero-buttons">
-                <a href="#destinations" class="btn-glass btn-gold">Explore Destinations</a>
-                <a href="booking.html" class="btn-glass btn-glass-outline">Curate Your Journey</a>
+                <a href="#destinations" class="btn-primary">Explore Destinations</a>
+                <a href="booking.html" class="btn-outline">Curate Your Journey</a>
             </div>
+        </div>
+        <div class="hero-scroll" onclick="document.getElementById('destinations').scrollIntoView({behavior:'smooth'})">
+            <span>Scroll</span>
+            <div class="hero-scroll-line"></div>
         </div>
     </section>
 
     <!-- DESTINATIONS -->
     <section class="section" id="destinations">
         <div class="section-header">
-            <div class="section-tag">Where Beauty Lives</div>
+            <div class="section-overline">Where Beauty Lives</div>
             <h2 class="section-title">Signature Destinations</h2>
             <div class="section-line"></div>
+            <p class="section-subtitle">Four extraordinary places — each one a chapter in the story of Morocco</p>
         </div>
-        <div class="dest-grid">
-            <!-- 1. AGAFAY -->
-            <div class="dest-card">
-                <div class="dest-bg" style="background: linear-gradient(180deg, #8B7355 0%, #C9A96E 40%, #DFC89D 100%);"></div>
-                <div class="dest-overlay"></div>
+        <div class="destinations-grid">
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%23C9A96E%22 width=%22400%22 height=%22550%22/><path fill=%22%23DFC89D%22 d=%22M0 300 Q100 200 200 320 Q300 440 400 250 L400 550 L0 550Z%22/><path fill=%22%23B8935A%22 d=%22M0 400 Q150 320 250 430 Q350 540 400 380 L400 550 L0 550Z%22/><circle cx=%2280%22 cy=%22120%22 r=%2230%22 fill=%22%23E8D5B7%22 opacity=%220.15%22/></svg>');"></div>
                 <div class="dest-content">
-                    <div class="dest-icon-circle">🏜️</div>
-                    <h3>Agafay</h3>
-                    <div class="loc">Desert Escape</div>
-                    <p>Lunar dunes, quad biking, and magical dinners beneath the stars — just 40 minutes from Marrakech</p>
-                    <span class="dest-arrow">→</span>
+                    <div class="dest-number">01</div>
+                    <h3>Agafay Desert</h3>
+                    <div class="location">40 min from Marrakech</div>
+                    <p>A lunar landscape of rocky dunes — quad bike, camel ride & dine under endless stars</p>
+                    <a href="agafay.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
-            <!-- 2. MARRAKECH -->
-            <div class="dest-card">
-                <div class="dest-bg" style="background: linear-gradient(180deg, #A05A3A 0%, #C4734F 40%, #D49573 100%);"></div>
-                <div class="dest-overlay"></div>
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%23C4734F%22 width=%22400%22 height=%22550%22/><rect fill=%22%23A55F3D%22 x=%2240%22 y=%2280%22 width=%22100%22 height=%22200%22 rx=%224%22/><rect fill=%22%238B4A30%22 x=%22180%22 y=%2260%22 width=%2280%22 height=%22220%22 rx=%224%22/><rect fill=%22%23C4734F%22 x=%22310%22 y=%2290%22 width=%2290%22 height=%22180%22 rx=%224%22/><path fill=%22%23DFC89D%22 d=%22M0 380 L400 380 L400 550 L0 550Z%22/></svg>');"></div>
                 <div class="dest-content">
-                    <div class="dest-icon-circle">🕌</div>
+                    <div class="dest-number">02</div>
                     <h3>Marrakech</h3>
-                    <div class="loc">The Red City</div>
-                    <p>Ancient palaces, bustling souks, and the eternal rhythm of Jemaa el-Fnaa</p>
-                    <span class="dest-arrow">→</span>
+                    <div class="location">The Red City</div>
+                    <p>Palaces, souks & the rhythms of Jemaa el-Fnaa — the heart of Morocco</p>
+                    <a href="marrakech.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
-            <!-- 3. IMLIL -->
-            <div class="dest-card">
-                <div class="dest-bg" style="background: linear-gradient(180deg, #2D4A5A 0%, #1A3650 40%, #3D6070 100%);"></div>
-                <div class="dest-overlay"></div>
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%231B3A4B%22 width=%22400%22 height=%22550%22/><path fill=%22%232D5A6B%22 d=%22M0 120 L100 30 L200 100 L300 40 L400 120 L400 550 L0 550Z%22/><path fill=%22%23FFFFFF%22 d=%22M180 35 L200 10 L220 35 L200 50Z%22 opacity=%220.7%22/><path fill=%22%233D6A7B%22 d=%22M0 200 L400 260 L400 550 L0 550Z%22 opacity=%220.5%22/></svg>');"></div>
                 <div class="dest-content">
-                    <div class="dest-icon-circle">⛰️</div>
-                    <h3>Imlil</h3>
-                    <div class="loc">Atlas Mountains</div>
-                    <p>Hike through Berber villages beneath North Africa's highest peaks</p>
-                    <span class="dest-arrow">→</span>
+                    <div class="dest-number">03</div>
+                    <h3>Imlil & Atlas</h3>
+                    <div class="location">High Atlas Mountains</div>
+                    <p>Hike, breathe & discover Berber life beneath North Africa's highest peaks</p>
+                    <a href="imlil.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
-            <!-- 4. MERZOUGA -->
-            <div class="dest-card">
-                <div class="dest-bg" style="background: linear-gradient(180deg, #D4A030 0%, #E8C860 40%, #F0D878 100%);"></div>
-                <div class="dest-overlay"></div>
+            <div class="dest-card" style="background-color:#1A1A1A;">
+                <div class="dest-bg" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 550%22><rect fill=%22%23E8D5B7%22 width=%22400%22 height=%22550%22/><path fill=%22%23DFC89D%22 d=%22M0 120 Q80 40 180 130 Q280 220 400 90 L400 550 L0 550Z%22/><path fill=%22%23C9A96E%22 d=%22M0 220 Q120 150 220 250 Q320 350 400 200 L400 550 L0 550Z%22/><path fill=%22%23B8935A%22 d=%22M0 350 Q200 280 400 400 L400 550 L0 550Z%22/></svg>');"></div>
                 <div class="dest-content">
-                    <div class="dest-icon-circle">🐪</div>
-                    <h3>Merzouga</h3>
-                    <div class="loc">The Sahara</div>
-                    <p>Towering golden dunes, camel treks, and nights that reveal the Milky Way</p>
-                    <span class="dest-arrow">→</span>
+                    <div class="dest-number">04</div>
+                    <h3>Merzouga Desert</h3>
+                    <div class="location">Sahara — Erg Chebbi</div>
+                    <p>Towering golden dunes, camel treks & nights beneath a blanket of stars</p>
+                    <a href="merzouga.html" class="dest-link">Discover <span class="arrow">→</span></a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- EXPERIENCES -->
-    <section class="exp-section" id="experiences">
+    <section class="experiences-section" id="experiences">
         <div class="section">
             <div class="section-header">
-                <div class="section-tag">Curated Adventures</div>
+                <div class="section-overline">Curated Adventures</div>
                 <h2 class="section-title">Signature Experiences</h2>
                 <div class="section-line"></div>
             </div>
             <div class="exp-grid">
                 <div class="exp-card">
-                    <div class="icon-glass">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    </div>
-                    <h3 class="exp-name">Quad Biking</h3>
-                    <p class="exp-desc">1-hour guided adventure through Agafay's dramatic terrain</p>
+                    <span class="exp-icon">🏍️</span>
+                    <h3>Quad Biking</h3>
+                    <p>1-hour guided adventure through Agafay's dramatic desert trails</p>
                     <div class="exp-price">€50 <span>/ person</span></div>
                 </div>
                 <div class="exp-card">
-                    <div class="icon-glass">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v10"/><path d="M8 9l4 4 4-4"/></svg>
-                    </div>
-                    <h3 class="exp-name">Camel Trek</h3>
-                    <p class="exp-desc">Sunset journey across golden dunes with panoramic views</p>
+                    <span class="exp-icon">🐪</span>
+                    <h3>Camel Trek</h3>
+                    <p>Sunset journey across golden dunes with panoramic views</p>
                     <div class="exp-price">€35 <span>/ person</span></div>
                 </div>
                 <div class="exp-card">
-                    <div class="icon-glass">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
-                    </div>
-                    <h3 class="exp-name">Desert Dinner</h3>
-                    <p class="exp-desc">Traditional feast under stars with live music & fire show</p>
+                    <span class="exp-icon">🌅</span>
+                    <h3>Desert Dinner</h3>
+                    <p>Traditional feast under stars with live music & fire show</p>
                     <div class="exp-price">€72 <span>/ person</span></div>
                 </div>
                 <div class="exp-card">
-                    <div class="icon-glass">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                    </div>
-                    <h3 class="exp-name">Luxury Camp</h3>
-                    <p class="exp-desc">Private tent in Merzouga with king bed & Sahara sunrise</p>
+                    <span class="exp-icon">🏕️</span>
+                    <h3>Luxury Camp</h3>
+                    <p>Private tent in Merzouga with king bed & Sahara sunrise</p>
                     <div class="exp-price">€200 <span>/ night</span></div>
                 </div>
                 <div class="exp-card">
-                    <div class="icon-glass">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5" stroke-linecap="round"><path d="M2 20L12 4l10 16H2z"/><path d="M12 16v-4"/></svg>
-                    </div>
-                    <h3 class="exp-name">Atlas Trek</h3>
-                    <p class="exp-desc">Full-day mountain hike with Berber lunch & Toubkal views</p>
+                    <span class="exp-icon">🥾</span>
+                    <h3>Atlas Trek</h3>
+                    <p>Full-day mountain hike with Berber lunch & Toubkal views</p>
                     <div class="exp-price">€55 <span>/ person</span></div>
                 </div>
                 <div class="exp-card">
-                    <div class="icon-glass">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/></svg>
-                    </div>
-                    <h3 class="exp-name">Medina Tour</h3>
-                    <p class="exp-desc">Half-day walk through Marrakech's hidden palaces & souks</p>
+                    <span class="exp-icon">🏛️</span>
+                    <h3>Medina Tour</h3>
+                    <p>Half-day walk through Marrakech's hidden palaces & souks</p>
                     <div class="exp-price">€30 <span>/ person</span></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FEATURES -->
-    <div class="feat-section">
-        <div class="feat-inner">
-            <div class="feat-item">
-                <div class="feat-icon-glass">🛡️</div>
-                <div class="feat-text"><h4>Secure Booking</h4><p>100% safe & encrypted</p></div>
-            </div>
-            <div class="feat-item">
-                <div class="feat-icon-glass">⭐</div>
-                <div class="feat-text"><h4>5-Star Rated</h4><p>By travelers worldwide</p></div>
-            </div>
-            <div class="feat-item">
-                <div class="feat-icon-glass">📞</div>
-                <div class="feat-text"><h4>24/7 Concierge</h4><p>Always at your service</p></div>
-            </div>
-            <div class="feat-item">
-                <div class="feat-icon-glass">💯</div>
-                <div class="feat-text"><h4>Best Price</h4><p>Lowest rate guaranteed</p></div>
-            </div>
+    <!-- FEATURES BAR -->
+    <div class="features-bar">
+        <div class="features-inner">
+            <div class="feat-item"><span class="feat-icon">🛡️</span><h4>Secure Booking</h4><p>100% safe & encrypted</p></div>
+            <div class="feat-item"><span class="feat-icon">💯</span><h4>Best Price</h4><p>Lowest rate guaranteed</p></div>
+            <div class="feat-item"><span class="feat-icon">📞</span><h4>24/7 Concierge</h4><p>Always at your service</p></div>
+            <div class="feat-item"><span class="feat-icon">⭐</span><h4>5-Star Rated</h4><p>By travelers worldwide</p></div>
         </div>
     </div>
+
+    <!-- TESTIMONIAL -->
+    <section class="testimonial-section">
+        <div class="section">
+            <div class="testimonial">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-quote">"An experience that touched our souls. From the golden dunes of Merzouga to the warmth of Berber hospitality — every moment was pure magic. This is not just a trip; it is a return to what matters."</p>
+                <p class="testimonial-author">— The Andersons, United Kingdom</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-title">Ready to Write Your Moroccan Story?</h2>
+            <p class="cta-text">Let us craft a journey as unique as you are</p>
+            <a href="booking.html" class="btn-cta">Begin Your Journey</a>
+        </div>
+    </section>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-about">
                 <h3>Morocco Desert Adventures</h3>
-                <p>Curating extraordinary Moroccan experiences since 2010. Every journey crafted by local experts who know and love this land.</p>
+                <p>Curating extraordinary Moroccan experiences since 2010. Agafay, Marrakech, Imlil, Merzouga — every journey crafted with passion by local experts who know and love this land.</p>
             </div>
             <div class="footer-col">
                 <h4>Destinations</h4>
-                <a href="#">Agafay</a><a href="#">Marrakech</a><a href="#">Imlil</a><a href="#">Merzouga</a>
+                <a href="agafay.html">Agafay Desert</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil & Atlas</a>
+                <a href="merzouga.html">Merzouga</a>
             </div>
             <div class="footer-col">
                 <h4>Plan</h4>
-                <a href="#">Book Now</a><a href="#">Hotels</a><a href="#">Activities</a><a href="#">FAQ</a>
+                <a href="booking.html">Book Now</a>
+                <a href="hotels.html">Hotels</a>
+                <a href="activities.html">Activities</a>
+                <a href="faq.html">FAQ</a>
             </div>
             <div class="footer-col">
                 <h4>Connect</h4>
-                <a href="#">Contact</a><a href="#">Privacy</a><a href="#">Help</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="faq.html">Help</a>
             </div>
         </div>
         <div class="footer-bottom">
             <p>© 2026 Morocco Desert Adventures. Crafted with devotion.</p>
-            <span>✧</span>
+            <div class="footer-social">
+                <a href="#">◆</a>
+                <a href="#">◇</a>
+                <a href="#">◆</a>
+            </div>
         </div>
     </footer>
 
     <script>
+        // PRELOADER
+        window.addEventListener('load', () => {
+            setTimeout(() => { document.getElementById('preloader').classList.add('hidden'); }, 1500);
+        });
+
+        // PARTICLES
+        const particlesContainer = document.getElementById('heroParticles');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'hero-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 8) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // CURSOR
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.querySelectorAll('a, button, .dest-card, .exp-card').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+        // NAVBAR SCROLL
         window.addEventListener('scroll', () => {
-            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
         });
     </script>
 </body>
