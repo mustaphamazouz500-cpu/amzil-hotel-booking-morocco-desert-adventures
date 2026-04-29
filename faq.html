@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Morocco Desert Adventures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A96E; --terracotta: #C4734F; --deep-blue: #1B3A4B;
+            --dark: #0F1A1F; --cream: #FBF7F0; --white: #FFFFFF;
+            --text: #2C2416; --text-light: #6B5E4A;
+            --shadow: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--text); }
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(251,247,240,0.92); backdrop-filter: blur(20px);
+            padding: 16px 0; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--deep-blue); text-decoration: none; }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-links a:hover { color: var(--terracotta); }
+        .btn-book { background: var(--terracotta); color: white !important; padding: 12px 24px; border-radius: 8px; font-weight: 700 !important; }
+        .page-container { max-width: 800px; margin: 120px auto 60px; padding: 0 24px; }
+        h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 900; color: var(--deep-blue); text-align: center; margin-bottom: 8px; }
+        .sub { text-align: center; color: var(--text-light); margin-bottom: 40px; }
+        .faq-item { background: white; border-radius: var(--radius); margin-bottom: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); overflow: hidden; }
+        .faq-q { padding: 18px 24px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 15px; color: var(--deep-blue); }
+        .faq-q:hover { color: var(--terracotta); }
+        .faq-q .arrow { transition: transform 0.3s; color: var(--gold); }
+        .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; font-size: 14px; color: var(--text-light); padding: 0 24px; line-height: 1.7; }
+        .faq-item.open .faq-a { max-height: 400px; padding: 0 24px 18px; }
+        .footer { background: var(--dark); color: white; padding: 30px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 40px; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="agafay.html">Agafay</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil</a>
+                <a href="merzouga.html">Merzouga</a>
+                <a href="booking.html" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-container">
+        <h1>🙋 Frequently Asked Questions</h1>
+        <p class="sub">Everything you need to know about our tours and services</p>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">How do I book a tour? <span class="arrow">▼</span></div><div class="faq-a">Use our <a href="booking.html" style="color:var(--terracotta)">Booking page</a> or <a href="contact.html" style="color:var(--terracotta)">Contact us</a> directly via WhatsApp. We'll confirm within 24 hours.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">What payment methods do you accept? <span class="arrow">▼</span></div><div class="faq-a">We accept cash (Euro/MAD), bank transfer, PayPal, and credit cards. A small deposit may be required for advance bookings.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Is hotel pickup included? <span class="arrow">▼</span></div><div class="faq-a">Yes! All our tours include round-trip transport from your hotel in Marrakech (for Agafay, Imlil). Merzouga tours include local pickup.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">What should I wear in the desert? <span class="arrow">▼</span></div><div class="faq-a">Light, breathable clothing during the day. Warm layers for evening (desert nights can be cold). Comfortable shoes, sunglasses, and sunscreen recommended.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Can children join the tours? <span class="arrow">▼</span></div><div class="faq-a">Absolutely! Most activities are family-friendly. Quad biking has a minimum age of 12 for solo driving, but children can ride with an adult.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">What languages do your guides speak? <span class="arrow">▼</span></div><div class="faq-a">Our guides are multilingual — English, French, Arabic, and Tamazight (Berber) as standard. Some also speak Spanish and German.</div></div>
+        <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Can I customize my itinerary? <span class="arrow">▼</span></div><div class="faq-a">Yes! We specialize in custom tours. <a href="contact.html" style="color:var(--terracotta)">Contact us</a> with your preferences and we'll create a personalized itinerary.</div></div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 Morocco Desert Adventures. | <a href="index.html">Home</a> | <a href="contact.html">Contact</a> | <a href="booking.html">Book Now</a></p>
+    </footer>
+</body>
+</html>
