@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morocco Desert Adventures | Luxury Tours & Desert Experiences</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A96E;
+            --gold-light: #DFC89D;
+            --sand: #E8D5B7;
+            --terracotta: #C4734F;
+            --deep-blue: #1B3A4B;
+            --dark: #0F1A1F;
+            --cream: #FBF7F0;
+            --white: #FFFFFF;
+            --text: #2C2416;
+            --text-light: #6B5E4A;
+            --shadow: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============ NAVIGATION ============ */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(251,247,240,0.92);
+            backdrop-filter: blur(20px);
+            padding: 16px 0; transition: all 0.3s;
+        }
+        .navbar.scrolled { box-shadow: var(--shadow); padding: 10px 0; }
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 24px; font-weight: 900; color: var(--deep-blue);
+            text-decoration: none; letter-spacing: -0.5px;
+        }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a {
+            color: var(--text); text-decoration: none; font-weight: 500;
+            font-size: 14px; transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--terracotta); }
+        .btn-book {
+            background: var(--terracotta); color: white !important;
+            padding: 12px 24px; border-radius: 8px; font-weight: 700 !important;
+            transition: all 0.3s !important;
+        }
+        .btn-book:hover {
+            background: #a55f3d; transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196,115,79,0.3);
+        }
+        .mobile-toggle {
+            display: none; background: none; border: none;
+            font-size: 28px; cursor: pointer; color: var(--deep-blue);
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh; position: relative; display: flex;
+            align-items: center; justify-content: center; text-align: center;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: linear-gradient(rgba(15,26,31,0.55), rgba(15,26,31,0.65)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23C9A96E" width="1200" height="800"/><path fill="%23E8D5B7" d="M0 400 Q300 200 600 350 Q900 500 1200 300 L1200 800 L0 800Z"/><circle cx="150" cy="150" r="80" fill="%23DFC89D" opacity="0.4"/><path fill="%23B8935A" d="M200 650 Q400 550 600 620 Q800 690 1000 580 L1000 800 L200 800Z"/></svg>') center/cover;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 700px; padding: 40px 20px; }
+        .hero-badge {
+            display: inline-block; background: rgba(201,169,110,0.2);
+            border: 1px solid var(--gold); color: var(--gold-light);
+            padding: 8px 20px; border-radius: 30px; font-size: 13px;
+            font-weight: 600; letter-spacing: 2px; margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            font-family: var(--font-heading); font-size: clamp(36px, 6vw, 64px);
+            font-weight: 900; color: white; line-height: 1.15; margin-bottom: 20px;
+        }
+        .hero h1 span { color: var(--gold); }
+        .hero p {
+            font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 32px;
+            max-width: 500px; margin-left: auto; margin-right: auto;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary, .btn-outline {
+            padding: 16px 32px; border-radius: 8px; font-size: 15px;
+            font-weight: 600; text-decoration: none; transition: all 0.3s;
+        }
+        .btn-primary {
+            background: var(--terracotta); color: white;
+            box-shadow: 0 8px 28px rgba(196,115,79,0.35);
+        }
+        .btn-primary:hover { background: #a55f3d; transform: translateY(-2px); }
+        .btn-outline {
+            border: 2px solid white; color: white;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+        /* ============ SECTION STYLES ============ */
+        .section { padding: 80px 24px; max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-label {
+            font-family: var(--font-body); font-size: 12px; font-weight: 700;
+            letter-spacing: 3px; color: var(--terracotta); text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: var(--font-heading); font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800; color: var(--deep-blue); margin-bottom: 16px;
+        }
+        .section-subtitle { color: var(--text-light); font-size: 16px; max-width: 500px; margin: 0 auto; }
+
+        /* ============ DESTINATION CARDS ============ */
+        .destinations-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .destination-card {
+            background: white; border-radius: var(--radius); overflow: hidden;
+            box-shadow: var(--shadow); transition: all 0.4s;
+        }
+        .destination-card:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(0,0,0,0.18); }
+        .card-image {
+            height: 220px; position: relative; overflow: hidden;
+            background-size: cover; background-position: center;
+            transition: transform 0.6s;
+        }
+        .destination-card:hover .card-image { transform: scale(1.05); }
+        .card-image.agafay { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%23C9A96E" width="400" height="220"/><path fill="%23E8D5B7" d="M0 100 Q100 50 200 120 Q300 190 400 90 L400 220 L0 220Z"/><path fill="%23DFC89D" d="M0 150 Q150 100 250 160 Q350 220 400 140 L400 220 L0 220Z"/><circle cx="80" cy="40" r="25" fill="%23FFF" opacity="0.3"/></svg>'); }
+        .card-image.marrakech { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%23C4734F" width="400" height="220"/><rect fill="%23A55F3D" x="50" y="30" width="80" height="120" rx="4"/><rect fill="%238B4A30" x="150" y="50" width="60" height="100" rx="4"/><rect fill="%23C4734F" x="250" y="20" width="90" height="130" rx="4"/><path fill="%23DFC89D" d="M0 170 L400 170 L400 220 L0 220Z"/></svg>'); }
+        .card-image.imlil { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%231B3A4B" width="400" height="220"/><path fill="%232D5A6B" d="M0 80 L100 20 L200 70 L300 30 L400 80 L400 220 L0 220Z"/><path fill="%23FFFFFF" d="M150 30 L200 5 L250 30 L200 45Z" opacity="0.8"/></svg>'); }
+        .card-image.merzouga { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220"><rect fill="%23E8D5B7" width="400" height="220"/><path fill="%23DFC89D" d="M0 60 Q80 20 150 70 Q220 120 300 50 Q350 20 400 60 L400 220 L0 220Z"/><path fill="%23C9A96E" d="M0 120 Q100 80 200 130 Q300 180 400 110 L400 220 L0 220Z"/></svg>'); }
+        .card-badge {
+            position: absolute; top: 16px; right: 16px;
+            background: var(--terracotta); color: white;
+            font-size: 11px; font-weight: 700; padding: 6px 14px;
+            border-radius: 6px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .card-content { padding: 24px; }
+        .card-content h3 {
+            font-family: var(--font-heading); font-size: 22px;
+            color: var(--deep-blue); margin-bottom: 8px;
+        }
+        .card-content .location {
+            color: var(--terracotta); font-size: 13px; font-weight: 600;
+            margin-bottom: 12px; display: flex; align-items: center; gap: 6px;
+        }
+        .card-content p { color: var(--text-light); font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
+        .card-features { display: flex; gap: 16px; margin-bottom: 20px; }
+        .feature-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-light); }
+        .card-cta {
+            display: inline-block; padding: 12px 24px;
+            background: var(--deep-blue); color: white;
+            text-decoration: none; border-radius: 8px; font-weight: 600;
+            font-size: 14px; transition: all 0.3s;
+        }
+        .card-cta:hover { background: var(--terracotta); }
+
+        /* ============ ACTIVITIES SECTION ============ */
+        .activities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .activity-card {
+            background: white; border-radius: var(--radius); padding: 28px;
+            box-shadow: var(--shadow); text-align: center; transition: all 0.3s;
+        }
+        .activity-card:hover { transform: translateY(-4px); }
+        .activity-icon { font-size: 44px; margin-bottom: 16px; }
+        .activity-card h3 { font-family: var(--font-heading); font-size: 18px; color: var(--deep-blue); margin-bottom: 8px; }
+        .activity-card p { color: var(--text-light); font-size: 13px; margin-bottom: 16px; }
+        .activity-price { font-size: 24px; font-weight: 700; color: var(--terracotta); margin-bottom: 16px; }
+        .activity-price span { font-size: 13px; color: var(--text-light); font-weight: 400; }
+
+        /* ============ FEATURES BAR ============ */
+        .features-bar {
+            background: var(--deep-blue); padding: 30px 0; color: white;
+        }
+        .features-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 24px;
+            display: flex; justify-content: space-around; gap: 20px;
+            flex-wrap: wrap;
+        }
+        .feat-item { display: flex; align-items: center; gap: 12px; }
+        .feat-icon { font-size: 28px; }
+        .feat-text h4 { font-size: 14px; font-weight: 600; }
+        .feat-text p { font-size: 12px; opacity: 0.7; }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--dark); color: white; padding: 60px 24px 30px;
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+        }
+        .footer-about h3 {
+            font-family: var(--font-heading); font-size: 22px; margin-bottom: 16px;
+        }
+        .footer-about p { color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.7; }
+        .footer-col h4 { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .footer-col a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; margin-bottom: 10px; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            max-width: 1200px; margin: 40px auto 0; padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center; font-size: 12px; color: rgba(255,255,255,0.4);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+            .hero h1 { font-size: 32px; }
+            .destinations-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="#destinations">Destinations</a>
+                <a href="#activities">Activities</a>
+                <a href="hotels.html">Hotels</a>
+                <a href="contact.html">Contact</a>
+                <a href="booking.html" class="btn-book">Book Now</a>
+            </div>
+            <button class="mobile-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">✦ Discover Morocco ✦</div>
+            <h1>Journey Through <span>Golden Sands</span> & Ancient Cities</h1>
+            <p>Experience the magic of Morocco — from the rolling dunes of Merzouga to the majestic Atlas peaks at Imlil, and the timeless beauty of Marrakech</p>
+            <div class="hero-buttons">
+                <a href="#destinations" class="btn-primary">Explore Destinations</a>
+                <a href="booking.html" class="btn-outline">Book Your Journey</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- DESTINATIONS SECTION -->
+    <section class="section" id="destinations">
+        <div class="section-header">
+            <div class="section-label">Where to Go</div>
+            <h2 class="section-title">Our Signature Destinations</h2>
+            <p class="section-subtitle">Four extraordinary places that capture the soul of Morocco — each offering a unique journey into beauty, culture, and adventure</p>
+        </div>
+        <div class="destinations-grid">
+            <!-- AGAFAY -->
+            <div class="destination-card">
+                <div class="card-image agafay">
+                    <div class="card-badge">Most Popular</div>
+                </div>
+                <div class="card-content">
+                    <h3>Agafay Desert</h3>
+                    <div class="location">📍 40 min from Marrakech</div>
+                    <p>A stunning rocky desert landscape offering all the magic of the Sahara just a short drive from Marrakech. Quad biking, camel rides, and luxury camp dinners under the stars.</p>
+                    <div class="card-features">
+                        <span class="feature-item">🏍️ Quad Biking</span>
+                        <span class="feature-item">🐪 Camel Rides</span>
+                        <span class="feature-item">🌅 Sunset Dinner</span>
+                    </div>
+                    <a href="agafay.html" class="card-cta">Explore Agafay →</a>
+                </div>
+            </div>
+
+            <!-- MARRAKECH -->
+            <div class="destination-card">
+                <div class="card-image marrakech">
+                    <div class="card-badge">Cultural Hub</div>
+                </div>
+                <div class="card-content">
+                    <h3>Marrakech</h3>
+                    <div class="location">📍 The Red City</div>
+                    <p>The beating heart of Morocco — wander through souks, marvel at ancient palaces, and soak in the vibrant energy of Jemaa el-Fnaa. Luxury riads and world-class dining await.</p>
+                    <div class="card-features">
+                        <span class="feature-item">🏛️ Medina Tour</span>
+                        <span class="feature-item">🕌 Palaces</span>
+                        <span class="feature-item">🍽️ Food Tours</span>
+                    </div>
+                    <a href="marrakech.html" class="card-cta">Explore Marrakech →</a>
+                </div>
+            </div>
+
+            <!-- IMLIL -->
+            <div class="destination-card">
+                <div class="card-image imlil">
+                    <div class="card-badge">Mountain Escape</div>
+                </div>
+                <div class="card-content">
+                    <h3>Imlil & Atlas Mountains</h3>
+                    <div class="location">📍 High Atlas, 90 min from Marrakech</div>
+                    <p>Nestled in the High Atlas Mountains, Imlil offers breathtaking hiking trails, Berber village visits, and panoramic views of North Africa's highest peak — Mount Toubkal.</p>
+                    <div class="card-features">
+                        <span class="feature-item">🥾 Hiking</span>
+                        <span class="feature-item">🏘️ Berber Villages</span>
+                        <span class="feature-item">⛰️ Mountain Views</span>
+                    </div>
+                    <a href="imlil.html" class="card-cta">Explore Imlil →</a>
+                </div>
+            </div>
+
+            <!-- MERZOUGA -->
+            <div class="destination-card">
+                <div class="card-image merzouga">
+                    <div class="card-badge">Sahara Experience</div>
+                </div>
+                <div class="card-content">
+                    <h3>Merzouga Desert</h3>
+                    <div class="location">📍 Sahara Desert, Erg Chebbi</div>
+                    <p>Witness the towering golden dunes of Erg Chebbi — ride camels across the Sahara, sleep in luxury desert camps, and wake up to one of the world's most spectacular sunrises.</p>
+                    <div class="card-features">
+                        <span class="feature-item">🐪 Camel Trekking</span>
+                        <span class="feature-item">🏕️ Desert Camp</span>
+                        <span class="feature-item">🌌 Star Gazing</span>
+                    </div>
+                    <a href="merzouga.html" class="card-cta">Explore Merzouga →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ACTIVITIES SECTION -->
+    <section class="section" id="activities" style="background: white;">
+        <div class="section-header">
+            <div class="section-label">Things to Do</div>
+            <h2 class="section-title">Unforgettable Experiences</h2>
+            <p class="section-subtitle">Adventure, culture, and relaxation — handpicked activities for every traveler</p>
+        </div>
+        <div class="activities-grid">
+            <div class="activity-card">
+                <div class="activity-icon">🏍️</div>
+                <h3>Quad Biking in Agafay</h3>
+                <p>1-hour guided quad bike adventure through desert trails and Berber villages</p>
+                <div class="activity-price">€50 <span>/ person</span></div>
+                <a href="booking.html" class="card-cta">Book Now</a>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🐪</div>
+                <h3>Camel Ride at Sunset</h3>
+                <p>30-minute camel trek across golden dunes with breathtaking sunset views</p>
+                <div class="activity-price">€35 <span>/ person</span></div>
+                <a href="booking.html" class="card-cta">Book Now</a>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🌅</div>
+                <h3>Desert Dinner & Show</h3>
+                <p>Traditional Moroccan dinner under the stars with live music & fire show</p>
+                <div class="activity-price">€45 <span>/ person</span></div>
+                <a href="booking.html" class="card-cta">Book Now</a>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🏕️</div>
+                <h3>Luxury Desert Camp</h3>
+                <p>Overnight in a luxury camp in Merzouga with private tent & stargazing</p>
+                <div class="activity-price">€120 <span>/ night</span></div>
+                <a href="booking.html" class="card-cta">Book Now</a>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🥾</div>
+                <h3>Atlas Mountain Trek</h3>
+                <p>Full-day guided hike through Imlil with Berber lunch & panoramic views</p>
+                <div class="activity-price">€55 <span>/ person</span></div>
+                <a href="booking.html" class="card-cta">Book Now</a>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🏛️</div>
+                <h3>Marrakech Medina Tour</h3>
+                <p>Half-day walking tour through souks, palaces, and hidden gems</p>
+                <div class="activity-price">€30 <span>/ person</span></div>
+                <a href="booking.html" class="card-cta">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES BAR -->
+    <div class="features-bar">
+        <div class="features-inner">
+            <div class="feat-item"><span class="feat-icon">🛡️</span><div class="feat-text"><h4>Secure Booking</h4><p>100% safe payment</p></div></div>
+            <div class="feat-item"><span class="feat-icon">💯</span><div class="feat-text"><h4>Best Price</h4><p>Guaranteed lowest rates</p></div></div>
+            <div class="feat-item"><span class="feat-icon">📞</span><div class="feat-text"><h4>24/7 Support</h4><p>Always here to help</p></div></div>
+            <div class="feat-item"><span class="feat-icon">⭐</span><div class="feat-text"><h4>5-Star Reviews</h4><p>Rated by travelers</p></div></div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-about">
+                <h3>Morocco Desert Adventures</h3>
+                <p>Your trusted partner for authentic Moroccan experiences. We specialize in tours to Agafay, Marrakech, Imlil, and Merzouga — each crafted with care by local experts.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Destinations</h4>
+                <a href="agafay.html">Agafay Desert</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil</a>
+                <a href="merzouga.html">Merzouga</a>
+            </div>
+            <div class="footer-col">
+                <h4>Bookings</h4>
+                <a href="hotels.html">Hotels</a>
+                <a href="activities.html">Activities</a>
+                <a href="booking.html">Book Now</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <a href="contact.html">Contact Us</a>
+                <a href="faq.html">FAQ</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Morocco Desert Adventures. All rights reserved. Designed with passion for Moroccan tourism.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const links = document.getElementById('navLinks');
+            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+            links.style.flexDirection = 'column';
+            links.style.position = 'absolute';
+            links.style.top = '70px';
+            links.style.left = '0';
+            links.style.width = '100%';
+            links.style.background = '#FBF7F0';
+            links.style.padding = '20px';
+            links.style.gap = '16px';
+            links.style.boxShadow = '0 8px 40px rgba(0,0,0,0.12)';
+        }
+
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+</html>
