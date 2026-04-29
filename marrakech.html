@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marrakech Tours | Morocco Desert Adventures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A96E; --terracotta: #C4734F; --deep-blue: #1B3A4B;
+            --dark: #0F1A1F; --cream: #FBF7F0; --white: #FFFFFF;
+            --text: #2C2416; --text-light: #6B5E4A;
+            --shadow: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--text); line-height: 1.6; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(251,247,240,0.92); backdrop-filter: blur(20px);
+            padding: 16px 0; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--deep-blue); text-decoration: none; }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-links a:hover { color: var(--terracotta); }
+        .btn-book { background: var(--terracotta); color: white !important; padding: 12px 24px; border-radius: 8px; font-weight: 700 !important; }
+
+        .page-hero {
+            min-height: 55vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; margin-top: 70px;
+            background: linear-gradient(rgba(15,26,31,0.45), rgba(15,26,31,0.55)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><rect fill="%23C4734F" width="1200" height="500"/><rect fill="%23A55F3D" x="80" y="60" width="120" height="180" rx="4"/><rect fill="%238B4A30" x="250" y="80" width="90" height="160" rx="4"/><rect fill="%23C4734F" x="400" y="40" width="150" height="200" rx="4"/><rect fill="%23A55F3D" x="600" y="100" width="100" height="140" rx="4"/><rect fill="%238B4A30" x="750" y="50" width="130" height="190" rx="4"/><rect fill="%23C4734F" x="950" y="70" width="110" height="170" rx="4"/><rect fill="%23DFC89D" y="350" width="1200" height="150"/></svg>') center/cover;
+        }
+        .hero-content { padding: 40px 20px; }
+        .hero-content h1 { font-family: var(--font-heading); font-size: clamp(32px, 5vw, 50px); font-weight: 900; color: white; margin-bottom: 14px; }
+        .hero-content p { font-size: 17px; color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto; }
+
+        .section { padding: 60px 24px; max-width: 1000px; margin: 0 auto; }
+        .section-title { font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--deep-blue); text-align: center; margin-bottom: 24px; }
+        .section-text { color: var(--text-light); font-size: 15px; line-height: 1.8; margin-bottom: 40px; text-align: center; }
+
+        .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .highlight-card {
+            background: white; border-radius: var(--radius); padding: 28px 20px;
+            text-align: center; box-shadow: var(--shadow); transition: all 0.3s;
+        }
+        .highlight-card:hover { transform: translateY(-4px); }
+        .highlight-icon { font-size: 44px; margin-bottom: 14px; }
+        .highlight-card h3 { font-family: var(--font-heading); font-size: 18px; color: var(--deep-blue); margin-bottom: 8px; }
+        .highlight-card p { color: var(--text-light); font-size: 13px; }
+
+        .tours-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .tour-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; }
+        .tour-card:hover { transform: translateY(-4px); }
+        .tour-header { background: var(--deep-blue); color: white; padding: 20px 24px; }
+        .tour-header h3 { font-family: var(--font-heading); font-size: 20px; margin-bottom: 4px; }
+        .tour-price { font-size: 28px; font-weight: 700; color: var(--gold); }
+        .tour-price span { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 400; }
+        .tour-body { padding: 24px; }
+        .tour-body ul { list-style: none; padding: 0; }
+        .tour-body li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+        .tour-body li:before { content: '✓'; color: var(--terracotta); font-weight: 700; }
+        .btn-tour { display: block; margin: 20px 24px 24px; padding: 14px; background: var(--terracotta); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; transition: all 0.3s; }
+        .btn-tour:hover { background: #a55f3d; }
+
+        .footer { background: var(--dark); color: white; padding: 30px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 40px; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="agafay.html">Agafay</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil</a>
+                <a href="merzouga.html">Merzouga</a>
+                <a href="booking.html" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>🏛️ Marrakech</h1>
+            <p>The Red City — where ancient palaces, bustling souks, and world-class cuisine create an unforgettable sensory journey</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Must-See Highlights</h2>
+        <div class="highlights-grid">
+            <div class="highlight-card"><div class="highlight-icon">🕌</div><h3>Koutoubia Mosque</h3><p>The iconic 12th-century landmark visible from across the city</p></div>
+            <div class="highlight-card"><div class="highlight-icon">🏰</div><h3>Bahia Palace</h3><p>19th-century palace with stunning mosaics, courtyards, and gardens</p></div>
+            <div class="highlight-card"><div class="highlight-icon">🌿</div><h3>Majorelle Garden</h3><p>Yves Saint Laurent's enchanting botanical garden and Berber Museum</p></div>
+            <div class="highlight-card"><div class="highlight-icon">🎪</div><h3>Jemaa el-Fnaa</h3><p>The vibrant square that never sleeps — snake charmers, food stalls, storytellers</p></div>
+            <div class="highlight-card"><div class="highlight-icon">🏺</div><h3>Medina Souks</h3><p>Labyrinth of artisan workshops, spices, leather goods, and carpets</p></div>
+            <div class="highlight-card"><div class="highlight-icon">🍽️</div><h3>Moroccan Cuisine</h3><p>Tagine, couscous, pastilla — world-renowned flavors in every corner</p></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Marrakech Experiences</h2>
+        <div class="tours-grid">
+            <div class="tour-card">
+                <div class="tour-header"><h3>Medina Walking Tour</h3><div class="tour-price">€30 <span>/ person</span></div></div>
+                <div class="tour-body"><ul><li>Half-day guided tour</li><li>English-speaking local guide</li><li>Souks, palaces & hidden gems</li><li>Traditional mint tea included</li><li>Small group, max 8 people</li></ul></div>
+                <a href="booking.html" class="btn-tour">Book This Tour</a>
+            </div>
+            <div class="tour-card">
+                <div class="tour-header"><h3>Food & Spice Tour</h3><div class="tour-price">€45 <span>/ person</span></div></div>
+                <div class="tour-body"><ul><li>3-hour guided food walk</li><li>Visit 8+ food stalls & restaurants</li><li>Sample tagine, pastilla, harira, sweets</li><li>Visit spice market</li><li>Vegetarian options available</li></ul></div>
+                <a href="booking.html" class="btn-tour">Book This Tour</a>
+            </div>
+            <div class="tour-card">
+                <div class="tour-header"><h3>Marrakech by Night</h3><div class="tour-price">€55 <span>/ person</span></div></div>
+                <div class="tour-body"><ul><li>Sunset at rooftop café</li><li>Jemaa el-Fnaa evening tour</li><li>Dinner at traditional restaurant</li><li>Horse-drawn carriage ride</li><li>Hotel pickup included</li></ul></div>
+                <a href="booking.html" class="btn-tour">Book This Tour</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Morocco Desert Adventures. | <a href="index.html">Home</a> | <a href="contact.html">Contact</a> | <a href="booking.html">Book Now</a></p>
+    </footer>
+</body>
+</html>
