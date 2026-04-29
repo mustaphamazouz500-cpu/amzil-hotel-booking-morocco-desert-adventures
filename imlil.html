@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imlil & Atlas Mountains | Morocco Desert Adventures</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #C9A96E; --terracotta: #C4734F; --deep-blue: #1B3A4B;
+            --dark: #0F1A1F; --cream: #FBF7F0; --white: #FFFFFF;
+            --text: #2C2416; --text-light: #6B5E4A;
+            --shadow: 0 8px 40px rgba(0,0,0,0.12);
+            --radius: 16px;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--text); line-height: 1.6; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(251,247,240,0.92); backdrop-filter: blur(20px);
+            padding: 16px 0; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--deep-blue); text-decoration: none; }
+        .nav-logo span { color: var(--terracotta); }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-links a:hover { color: var(--terracotta); }
+        .btn-book { background: var(--terracotta); color: white !important; padding: 12px 24px; border-radius: 8px; font-weight: 700 !important; }
+
+        .page-hero {
+            min-height: 55vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; margin-top: 70px;
+            background: linear-gradient(rgba(15,26,31,0.45), rgba(15,26,31,0.55)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><rect fill="%231B3A4B" width="1200" height="500"/><path fill="%232D5A6B" d="M0 80 L150 0 L300 60 L450 10 L600 70 L750 5 L900 50 L1050 20 L1200 80 L1200 500 L0 500Z"/><path fill="%23FFFFFF" d="M200 10 L250 -15 L300 10 L250 25Z" opacity="0.8"/><path fill="%23FFFFFF" d="M500 0 L540 -20 L580 0 L540 15Z" opacity="0.7"/><path fill="%23FFFFFF" d="M800 5 L850 -12 L900 5 L850 18Z" opacity="0.8"/><path fill="%233D6A7B" d="M0 120 L1200 200 L1200 500 L0 500Z" opacity="0.6"/></svg>') center/cover;
+        }
+        .hero-content { padding: 40px 20px; }
+        .hero-content h1 { font-family: var(--font-heading); font-size: clamp(32px, 5vw, 50px); font-weight: 900; color: white; margin-bottom: 14px; }
+        .hero-content p { font-size: 17px; color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto; }
+
+        .section { padding: 60px 24px; max-width: 1000px; margin: 0 auto; }
+        .section-title { font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--deep-blue); text-align: center; margin-bottom: 24px; }
+        .section-text { color: var(--text-light); font-size: 15px; line-height: 1.8; margin-bottom: 40px; text-align: center; }
+
+        .tours-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .tour-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; }
+        .tour-card:hover { transform: translateY(-4px); }
+        .tour-header { background: var(--deep-blue); color: white; padding: 20px 24px; }
+        .tour-header h3 { font-family: var(--font-heading); font-size: 20px; margin-bottom: 4px; }
+        .tour-price { font-size: 28px; font-weight: 700; color: var(--gold); }
+        .tour-price span { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 400; }
+        .tour-body { padding: 24px; }
+        .tour-body ul { list-style: none; padding: 0; }
+        .tour-body li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+        .tour-body li:before { content: '✓'; color: var(--terracotta); font-weight: 700; }
+        .btn-tour { display: block; margin: 20px 24px 24px; padding: 14px; background: var(--terracotta); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; transition: all 0.3s; }
+        .btn-tour:hover { background: #a55f3d; }
+
+        .info-box {
+            background: white; border-radius: var(--radius); padding: 30px;
+            box-shadow: var(--shadow); display: flex; gap: 20px; align-items: flex-start;
+            margin-bottom: 24px; flex-wrap: wrap;
+        }
+        .info-icon { font-size: 40px; flex-shrink: 0; }
+        .info-content h3 { font-family: var(--font-heading); color: var(--deep-blue); margin-bottom: 8px; }
+        .info-content p { color: var(--text-light); font-size: 14px; line-height: 1.7; }
+
+        .footer { background: var(--dark); color: white; padding: 30px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 40px; }
+        .footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="agafay.html">Agafay</a>
+                <a href="marrakech.html">Marrakech</a>
+                <a href="imlil.html">Imlil</a>
+                <a href="merzouga.html">Merzouga</a>
+                <a href="booking.html" class="btn-book">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="hero-content">
+            <h1>⛰️ Imlil & Atlas Mountains</h1>
+            <p>Discover the High Atlas — hike through Berber villages, conquer Mount Toubkal, and breathe the purest mountain air in North Africa</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Why Visit Imlil?</h2>
+        <div class="info-box">
+            <div class="info-icon">🏔️</div>
+            <div class="info-content">
+                <h3>Gateway to Mount Toubkal</h3>
+                <p>Imlil is the starting point for climbing Mount Toubkal (4,167m) — North Africa's highest peak. Even if you don't summit, the valley offers spectacular hiking trails for all levels, from gentle walks through apple orchards to challenging mountain treks.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <div class="info-icon">🏘️</div>
+            <div class="info-content">
+                <h3>Authentic Berber Culture</h3>
+                <p>Visit traditional Amazigh (Berber) villages nestled on mountain slopes. Experience genuine hospitality, learn about centuries-old farming methods, taste homemade bread with olive oil, and sip mint tea while gazing at panoramic mountain views.</p>
+            </div>
+        </div>
+        <div class="info-box">
+            <div class="info-icon">🌿</div>
+            <div class="info-content">
+                <h3>Nature at Its Purest</h3>
+                <p>In spring and summer, the valleys burst with wildflowers, walnut groves, and cherry orchards. Crystal-clear streams flow from snow-capped peaks. In winter, the mountains dress in white — a surreal contrast to the desert just hours away.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Imlil Adventures</h2>
+        <div class="tours-grid">
+            <div class="tour-card">
+                <div class="tour-header"><h3>Full-Day Atlas Trek</h3><div class="tour-price">€55 <span>/ person</span></div></div>
+                <div class="tour-body"><ul><li>Full-day guided hike (6-7 hours)</li><li>Professional mountain guide</li><li>Visit 3 Berber villages</li><li>Traditional Berber lunch included</li><li>Panoramic Toubkal views</li></ul></div>
+                <a href="booking.html" class="btn-tour">Book This Trek</a>
+            </div>
+            <div class="tour-card">
+                <div class="tour-header"><h3>Toubkal Summit (2 Days)</h3><div class="tour-price">€180 <span>/ person</span></div></div>
+                <div class="tour-body"><ul><li>2-day guided expedition</li><li>Overnight at mountain refuge</li><li>Meals included (2 lunch, 1 dinner, 1 breakfast)</li><li>Mule support for luggage</li><li>Summit certificate upon completion</li></ul></div>
+                <a href="booking.html" class="btn-tour">Book Expedition</a>
+            </div>
+            <div class="tour-card">
+                <div class="tour-header"><h3>Half-Day Easy Walk</h3><div class="tour-price">€30 <span>/ person</span></div></div>
+                <div class="tour-body"><ul><li>3-hour gentle walk</li><li>Perfect for families & beginners</li><li>Visit a Berber village</li><li>Mint tea with a local family</li><li>Stunning valley views</li></ul></div>
+                <a href="booking.html" class="btn-tour">Book Walk</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 Morocco Desert Adventures. | <a href="index.html">Home</a> | <a href="contact.html">Contact</a> | <a href="booking.html">Book Now</a></p>
+    </footer>
+</body>
+</html>
