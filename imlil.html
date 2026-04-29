@@ -3,146 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imlil & Atlas Mountains | Morocco Desert Adventures</title>
+    <title>Imlil & Atlas | Morocco Desert Adventures</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #C9A96E; --terracotta: #C4734F; --deep-blue: #1B3A4B;
-            --dark: #0F1A1F; --cream: #FBF7F0; --white: #FFFFFF;
-            --text: #2C2416; --text-light: #6B5E4A;
-            --shadow: 0 8px 40px rgba(0,0,0,0.12);
-            --radius: 16px;
-            --font-heading: 'Playfair Display', Georgia, serif;
+            --gold: #D4AF37; --gold-light: #E8D07A; --terracotta: #C4734F;
+            --deep-blue: #1A3650; --midnight: #0F1D2D; --cream: #FDF8F0;
+            --sand: #F5EDE0; --white: #FFFFFF; --text: #1A1A1A; --text-light: #5C5C5C;
+            --radius: 20px;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
             --font-body: 'Inter', -apple-system, sans-serif;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); background: var(--cream); color: var(--text); line-height: 1.6; }
+        body { font-family: var(--font-body); background: var(--cream); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
         .navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            background: rgba(251,247,240,0.92); backdrop-filter: blur(20px);
-            padding: 16px 0; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(253,248,240,0.95); backdrop-filter: blur(30px);
+            padding: 14px 0; box-shadow: 0 2px 30px rgba(0,0,0,0.05);
         }
-        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo { font-family: var(--font-heading); font-size: 24px; font-weight: 900; color: var(--deep-blue); text-decoration: none; }
-        .nav-logo span { color: var(--terracotta); }
-        .nav-links { display: flex; gap: 28px; align-items: center; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; }
-        .nav-links a:hover { color: var(--terracotta); }
-        .btn-book { background: var(--terracotta); color: white !important; padding: 12px 24px; border-radius: 8px; font-weight: 700 !important; }
+        .nav-inner { max-width: 1300px; margin: 0 auto; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--midnight); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-logo-icon { width: 34px; height: 34px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--deep-blue); }
+        .btn-nav { padding: 12px 26px; background: var(--deep-blue); color: var(--white) !important; border-radius: 4px; font-weight: 600 !important; }
 
         .page-hero {
-            min-height: 55vh; display: flex; align-items: center; justify-content: center;
+            min-height: 70vh; display: flex; align-items: center; justify-content: center;
             text-align: center; margin-top: 70px;
-            background: linear-gradient(rgba(15,26,31,0.45), rgba(15,26,31,0.55)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500"><rect fill="%231B3A4B" width="1200" height="500"/><path fill="%232D5A6B" d="M0 80 L150 0 L300 60 L450 10 L600 70 L750 5 L900 50 L1050 20 L1200 80 L1200 500 L0 500Z"/><path fill="%23FFFFFF" d="M200 10 L250 -15 L300 10 L250 25Z" opacity="0.8"/><path fill="%23FFFFFF" d="M500 0 L540 -20 L580 0 L540 15Z" opacity="0.7"/><path fill="%23FFFFFF" d="M800 5 L850 -12 L900 5 L850 18Z" opacity="0.8"/><path fill="%233D6A7B" d="M0 120 L1200 200 L1200 500 L0 500Z" opacity="0.6"/></svg>') center/cover;
+            background: linear-gradient(135deg, #0F1D2D 0%, #1A3650 50%, #2D5A6B 100%);
+            position: relative; overflow: hidden;
         }
-        .hero-content { padding: 40px 20px; }
-        .hero-content h1 { font-family: var(--font-heading); font-size: clamp(32px, 5vw, 50px); font-weight: 900; color: white; margin-bottom: 14px; }
-        .hero-content p { font-size: 17px; color: rgba(255,255,255,0.85); max-width: 500px; margin: 0 auto; }
+        .hero-particles { position: absolute; inset: 0; pointer-events: none; }
+        .hero-particle { position: absolute; width: 2px; height: 2px; background: var(--white); border-radius: 50%; animation: particleFloat 8s infinite; opacity: 0; }
+        @keyframes particleFloat { 0% { opacity: 0; transform: translateY(100vh); } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { opacity: 0; transform: translateY(-100vh); } }
+        .hero-content { z-index: 2; padding: 40px; max-width: 700px; }
+        .hero-overline { font-size: 10px; letter-spacing: 4px; color: var(--gold-light); text-transform: uppercase; margin-bottom: 20px; }
+        .hero-content h1 { font-family: var(--font-display); font-size: clamp(40px, 6vw, 64px); font-weight: 600; color: var(--white); }
+        .hero-content h1 span { color: var(--gold); font-style: italic; }
+        .hero-content p { color: rgba(255,255,255,0.7); font-size: 17px; max-width: 500px; margin: 16px auto 0; }
 
-        .section { padding: 60px 24px; max-width: 1000px; margin: 0 auto; }
-        .section-title { font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--deep-blue); text-align: center; margin-bottom: 24px; }
-        .section-text { color: var(--text-light); font-size: 15px; line-height: 1.8; margin-bottom: 40px; text-align: center; }
+        .section { padding: 90px 40px; max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-overline { font-size: 10px; letter-spacing: 4px; color: var(--deep-blue); text-transform: uppercase; margin-bottom: 14px; }
+        .section-title { font-family: var(--font-display); font-size: clamp(30px, 4vw, 42px); font-weight: 600; color: var(--midnight); }
+        .section-line { width: 50px; height: 2px; background: var(--gold); margin: 16px auto; }
 
-        .tours-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-        .tour-card { background: white; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); transition: all 0.3s; }
-        .tour-card:hover { transform: translateY(-4px); }
-        .tour-header { background: var(--deep-blue); color: white; padding: 20px 24px; }
-        .tour-header h3 { font-family: var(--font-heading); font-size: 20px; margin-bottom: 4px; }
-        .tour-price { font-size: 28px; font-weight: 700; color: var(--gold); }
-        .tour-price span { font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 400; }
-        .tour-body { padding: 24px; }
+        .tours-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .tour-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: 0 4px 30px rgba(0,0,0,0.05); transition: all 0.5s; }
+        .tour-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+        .tour-header { background: var(--deep-blue); color: var(--white); padding: 30px 28px; }
+        .tour-header h3 { font-family: var(--font-display); font-size: 22px; margin-bottom: 6px; }
+        .tour-price { font-size: 32px; font-weight: 700; color: var(--gold); font-family: var(--font-display); }
+        .tour-price span { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 400; }
+        .tour-body { padding: 28px; }
         .tour-body ul { list-style: none; padding: 0; }
-        .tour-body li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 14px; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
-        .tour-body li:before { content: '✓'; color: var(--terracotta); font-weight: 700; }
-        .btn-tour { display: block; margin: 20px 24px 24px; padding: 14px; background: var(--terracotta); color: white; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; transition: all 0.3s; }
-        .btn-tour:hover { background: #a55f3d; }
+        .tour-body li { padding: 9px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 13px; color: var(--text-light); display: flex; align-items: center; gap: 8px; }
+        .tour-body li::before { content: '◆'; color: var(--deep-blue); font-size: 7px; }
+        .btn-tour { display: block; margin: 20px 28px 28px; padding: 14px; background: var(--deep-blue); color: var(--white); text-align: center; text-decoration: none; font-weight: 700; letter-spacing: 2px; font-size: 11px; text-transform: uppercase; border-radius: 4px; transition: all 0.4s; }
+        .btn-tour:hover { background: #2D5A6B; transform: translateY(-2px); }
 
-        .info-box {
-            background: white; border-radius: var(--radius); padding: 30px;
-            box-shadow: var(--shadow); display: flex; gap: 20px; align-items: flex-start;
-            margin-bottom: 24px; flex-wrap: wrap;
-        }
-        .info-icon { font-size: 40px; flex-shrink: 0; }
-        .info-content h3 { font-family: var(--font-heading); color: var(--deep-blue); margin-bottom: 8px; }
-        .info-content p { color: var(--text-light); font-size: 14px; line-height: 1.7; }
+        .footer { background: #0A1219; color: var(--white); padding: 50px 40px 30px; margin-top: 60px; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-inner p { color: rgba(255,255,255,0.35); font-size: 12px; }
+        .footer-inner a { color: var(--gold-light); text-decoration: none; font-size: 12px; }
 
-        .footer { background: var(--dark); color: white; padding: 30px 24px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 40px; }
-        .footer a { color: var(--gold); text-decoration: none; }
+        @media (max-width: 768px) { .tours-grid { grid-template-columns: 1fr; } .nav-links { display: none; } }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo">Morocco<span>Desert</span>Adventures</a>
+            <a href="index.html" class="nav-logo"><span class="nav-logo-icon">✧</span> M. D. A.</a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="agafay.html">Agafay</a>
                 <a href="marrakech.html">Marrakech</a>
                 <a href="imlil.html">Imlil</a>
                 <a href="merzouga.html">Merzouga</a>
-                <a href="booking.html" class="btn-book">Book Now</a>
+                <a href="booking.html" class="btn-nav">Book Now</a>
             </div>
         </div>
     </nav>
 
     <section class="page-hero">
+        <div class="hero-particles" id="heroParticles"></div>
         <div class="hero-content">
-            <h1>⛰️ Imlil & Atlas Mountains</h1>
-            <p>Discover the High Atlas — hike through Berber villages, conquer Mount Toubkal, and breathe the purest mountain air in North Africa</p>
+            <div class="hero-overline">Mountain Sanctuary</div>
+            <h1>Imlil & <span>The Atlas</span></h1>
+            <p>Where snow-capped peaks touch the sky and Berber villages cling to mountainsides — the High Atlas in all its majesty</p>
         </div>
     </section>
 
     <section class="section">
-        <h2 class="section-title">Why Visit Imlil?</h2>
-        <div class="info-box">
-            <div class="info-icon">🏔️</div>
-            <div class="info-content">
-                <h3>Gateway to Mount Toubkal</h3>
-                <p>Imlil is the starting point for climbing Mount Toubkal (4,167m) — North Africa's highest peak. Even if you don't summit, the valley offers spectacular hiking trails for all levels, from gentle walks through apple orchards to challenging mountain treks.</p>
-            </div>
+        <div class="section-header">
+            <div class="section-overline">Adventures</div>
+            <h2 class="section-title">Choose Your Trek</h2>
+            <div class="section-line"></div>
         </div>
-        <div class="info-box">
-            <div class="info-icon">🏘️</div>
-            <div class="info-content">
-                <h3>Authentic Berber Culture</h3>
-                <p>Visit traditional Amazigh (Berber) villages nestled on mountain slopes. Experience genuine hospitality, learn about centuries-old farming methods, taste homemade bread with olive oil, and sip mint tea while gazing at panoramic mountain views.</p>
-            </div>
-        </div>
-        <div class="info-box">
-            <div class="info-icon">🌿</div>
-            <div class="info-content">
-                <h3>Nature at Its Purest</h3>
-                <p>In spring and summer, the valleys burst with wildflowers, walnut groves, and cherry orchards. Crystal-clear streams flow from snow-capped peaks. In winter, the mountains dress in white — a surreal contrast to the desert just hours away.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2 class="section-title">Imlil Adventures</h2>
         <div class="tours-grid">
-            <div class="tour-card">
-                <div class="tour-header"><h3>Full-Day Atlas Trek</h3><div class="tour-price">€55 <span>/ person</span></div></div>
-                <div class="tour-body"><ul><li>Full-day guided hike (6-7 hours)</li><li>Professional mountain guide</li><li>Visit 3 Berber villages</li><li>Traditional Berber lunch included</li><li>Panoramic Toubkal views</li></ul></div>
-                <a href="booking.html" class="btn-tour">Book This Trek</a>
-            </div>
-            <div class="tour-card">
-                <div class="tour-header"><h3>Toubkal Summit (2 Days)</h3><div class="tour-price">€180 <span>/ person</span></div></div>
-                <div class="tour-body"><ul><li>2-day guided expedition</li><li>Overnight at mountain refuge</li><li>Meals included (2 lunch, 1 dinner, 1 breakfast)</li><li>Mule support for luggage</li><li>Summit certificate upon completion</li></ul></div>
-                <a href="booking.html" class="btn-tour">Book Expedition</a>
-            </div>
-            <div class="tour-card">
-                <div class="tour-header"><h3>Half-Day Easy Walk</h3><div class="tour-price">€30 <span>/ person</span></div></div>
-                <div class="tour-body"><ul><li>3-hour gentle walk</li><li>Perfect for families & beginners</li><li>Visit a Berber village</li><li>Mint tea with a local family</li><li>Stunning valley views</li></ul></div>
-                <a href="booking.html" class="btn-tour">Book Walk</a>
-            </div>
+            <div class="tour-card"><div class="tour-header"><h3>Full-Day Trek</h3><div class="tour-price">€55 <span>/ person</span></div></div><div class="tour-body"><ul><li>6-7 hour guided hike</li><li>Professional mountain guide</li><li>3 Berber villages</li><li>Traditional lunch included</li><li>Panoramic Toubkal views</li></ul></div><a href="booking.html" class="btn-tour">Reserve</a></div>
+            <div class="tour-card"><div class="tour-header"><h3>Toubkal Summit</h3><div class="tour-price">€180 <span>/ person</span></div></div><div class="tour-body"><ul><li>2-day expedition</li><li>Mountain refuge overnight</li><li>All meals included</li><li>Mule luggage support</li><li>Summit certificate</li></ul></div><a href="booking.html" class="btn-tour">Reserve</a></div>
+            <div class="tour-card"><div class="tour-header"><h3>Easy Half-Day</h3><div class="tour-price">€30 <span>/ person</span></div></div><div class="tour-body"><ul><li>3-hour gentle walk</li><li>Family friendly</li><li>Berber village visit</li><li>Mint tea with locals</li><li>Valley panoramas</li></ul></div><a href="booking.html" class="btn-tour">Reserve</a></div>
         </div>
     </section>
 
-    <footer class="footer">
-        <p>© 2026 Morocco Desert Adventures. | <a href="index.html">Home</a> | <a href="contact.html">Contact</a> | <a href="booking.html">Book Now</a></p>
-    </footer>
+    <footer class="footer"><div class="footer-inner"><p>© 2026 Morocco Desert Adventures.</p><p><a href="index.html">Home</a> · <a href="contact.html">Contact</a> · <a href="booking.html">Book Now</a></p></div></footer>
+    <script>const c=document.getElementById('heroParticles');for(let i=0;i<25;i++){const p=document.createElement('div');p.className='hero-particle';p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*8+'s';p.style.animationDuration=(Math.random()*8+6)+'s';c.appendChild(p);}</script>
 </body>
 </html>
